@@ -9,6 +9,10 @@ spec:
   containers:
     - name: jnlp
       image: jenkins/inbound-agent:4.13.3-1-jdk17
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
     - name: kaniko
       image: gcr.io/kaniko-project/executor:debug
       command:
