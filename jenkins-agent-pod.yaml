@@ -7,18 +7,8 @@ spec:
       value: "jenkins"
       effect: "NoSchedule"
   containers:
-    - name: jdk
-      image: openjdk:17-jdk-slim-buster
-      command:
-        - sleep
-      args:
-        - 9999999
-      env:
-        - name: GRADLE_USER_HOME
-          value: "/home/jenkins/agent/"
-      volumeMounts:
-        - name: jenkins-agent-data
-          mountPath: /home/jenkins/agent/
+    - name: jnlp
+      image: jenkins/inbound-agent:4.13.3-1-jdk17
     - name: kaniko
       image: gcr.io/kaniko-project/executor:debug
       command:
@@ -30,9 +20,6 @@ spec:
           mountPath: /kaniko/.docker/
   restartPolicy: Never
   volumes:
-    - name: jenkins-agent-data
-      persistentVolumeClaim:
-        claimName: jenkins-agent-pvc
     - name: docker-config
       configMap:
         name: docker-config

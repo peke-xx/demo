@@ -2,6 +2,10 @@ pipeline {
     agent {
         kubernetes {
             yamlFile './jenkins-agent-pod.yaml'
+            workspaceVolume persistentVolumeClaimWorkspaceVolume(claimName: 'jenkins-agent-pvc', readOnly: false)
+            envVars: [
+                envVar(key: 'GRADLE_USER_HOME', value: '/home/jenkins/agent/')
+            ])
         }
     }
     environment {
