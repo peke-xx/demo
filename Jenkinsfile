@@ -30,13 +30,15 @@ pipeline {
                 checkout scm
                 sh "ls -al"
 
-                branchArray = env.GIT_BRANCH.split('/')
-                prefix = branchArray.last()
+                script {
+                    branchArray = env.GIT_BRANCH.split('/')
+                    prefix = branchArray.last()
 
-                Date date = new Date()
-                postfix = date.format("yyyyMMddHHmmss")
+                    Date date = new Date()
+                    postfix = date.format("yyyyMMddHHmmss")
 
-                env.CUSTOM_IMAGE_TAG = "${prefix}-${postfix}"
+                    env.CUSTOM_IMAGE_TAG = "${prefix}-${postfix}"
+                }
             }
             post {
                 success {
