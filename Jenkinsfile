@@ -34,12 +34,14 @@ pipeline {
                     branchArray = env.GIT_BRANCH.split('/')
                     prefix = branchArray.last()
 
-                    Date date = new Date()
-                    postfix = date.format("yyyyMMddHHmmss")
+                    if (a.contains('/tags/')) {
+                        Date date = new Date()
+                        postfix = date.format("yyyyMMddHHmmss")
 
-                    env.CUSTOM_IMAGE_TAG = "${prefix}-${postfix}"
-
-                    sh "echo ${env.CUSTOM_IMAGE_TAG}"
+                        env.CUSTOM_IMAGE_TAG = "release-${prefix}-${postfix}"
+                    } else {
+                        env.CUSTOM_IMAGE_TAG = "prod-${prefix}"
+                    }
                 }
             }
             post {
