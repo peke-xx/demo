@@ -31,18 +31,18 @@ pipeline {
                 sh "ls -al"
 
                 script {
-                    sh "printenv"
+                    // sh "printenv"
 
                     branchArray = env.GIT_BRANCH.split('/')
                     prefix = branchArray.last()
 
                     if (env.GIT_BRANCH.contains('/tags/')) {
+                        env.CUSTOM_IMAGE_TAG = "prod-${prefix}"
+                    } else {
                         Date date = new Date()
                         postfix = date.format("yyyyMMddHHmmss")
 
                         env.CUSTOM_IMAGE_TAG = "release-${prefix}-${postfix}"
-                    } else {
-                        env.CUSTOM_IMAGE_TAG = "prod-${prefix}"
                     }
                 }
             }
@@ -74,7 +74,7 @@ pipeline {
             steps {
                 container('kaniko') {
                     sh '''
-                    /kaniko/executor --context `pwd` --destination ${IMAGE_NAME}:${CUSTOM_IMAGE_TAG}
+                    /kaniko/executor --destination ${IMAGE_NAME}:${CUSTOM_IMAGE_TAG}
                     '''
                 }
             }
