@@ -35,7 +35,6 @@ pipeline {
         stage('clone project') {
             steps {
                 checkout scm
-                sh "pwd"
                 sh "ls -al"
             }
             post {
@@ -49,12 +48,9 @@ pipeline {
         }
         stage('build project') {
             steps {
-                container('jdk') {
-                    sh '''
-                    ./gradlew build --no-daemon
-                    '''
-                    sh "pwd"
-                }
+                sh '''
+                ./gradlew build --no-daemon
+                '''
             }
             post {
                 success {
@@ -71,7 +67,6 @@ pipeline {
                     sh '''
                     /kaniko/executor --context `pwd` --destination 921784810802.dkr.ecr.us-west-2.amazonaws.com/peke-test:${BUILD_NUMBER}
                     '''
-                    sh "pwd"
                 }
             }
             post {
