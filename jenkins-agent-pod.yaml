@@ -14,7 +14,7 @@ spec:
       args:
         - 9999999
       volumeMounts:
-        - name: persistent-storage
+        - name: jenkins-agent-data
           mountPath: /home/jenkins/agent/
         - name: docker-config
           mountPath: /kaniko/.docker/
