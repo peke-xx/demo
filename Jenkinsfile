@@ -73,8 +73,9 @@ pipeline {
         stage('build and push docker image') {
             steps {
                 container('kaniko') {
+                    sh "ls -al build/libs/"
                     sh '''
-                    /kaniko/executor --destination ${IMAGE_NAME}:${CUSTOM_IMAGE_TAG}
+                    /kaniko/executor --context "`pwd`" --destination ${IMAGE_NAME}:${CUSTOM_IMAGE_TAG}
                     '''
                 }
             }
