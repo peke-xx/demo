@@ -38,6 +38,8 @@ pipeline {
                     postfix = date.format("yyyyMMddHHmmss")
 
                     env.CUSTOM_IMAGE_TAG = "${prefix}-${postfix}"
+
+                    sh "echo ${env.CUSTOM_IMAGE_TAG}"
                 }
             }
             post {
