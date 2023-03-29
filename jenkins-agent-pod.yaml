@@ -14,8 +14,8 @@ spec:
       args:
         - 9999999
       env:
-        name: GRADLE_USER_HOME
-        value: "/home/jenkins/agent/"
+        - name: GRADLE_USER_HOME
+          value: "/home/jenkins/agent/"
       volumeMounts:
         - name: jenkins-agent-data
           mountPath: /home/jenkins/agent/
