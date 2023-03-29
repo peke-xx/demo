@@ -31,6 +31,8 @@ pipeline {
                 sh "ls -al"
 
                 script {
+                    sh "printenv"
+
                     branchArray = env.GIT_BRANCH.split('/')
                     prefix = branchArray.last()
 
