@@ -15,64 +15,22 @@ pipeline {
         AWS_CREDENTIALS_NAME = 'aws-credentials'
     }
     stages{
-        stage('init') {
-            steps {
-                echo 'init stage'
-                deleteDir()
-            }
-            post {
-                success {
-                    echo 'success init in pipeline'
-                }
-                failure {
-                    error 'fail init in pipeline'
-                }
-            }
-        }
         stage('clone project') {
-            steps {
-                checkout scm
-                sh "ls -al"
-            }
-            post {
-                success {
-                    echo 'success clone project'
-                }
-                failure {
-                    error 'fail clone project' // exit pipeline
-                }
-            }
+            checkout scm
+            sh "ls -al"
         }
         stage('build project') {
-            steps {
+            container('jdk') {
                 sh '''
                 ./gradlew build --no-daemon
-        		'''
-            }
-            post {
-                success {
-                    echo 'success build project'
-                }
-                failure {
-                    error 'fail build project' // exit pipeline
-                }
+                '''
             }
         }
         stage('build and push docker image') {
-            steps {
-                container('kaniko') {
-                    sh '''
-                    /kaniko/executor --context `pwd` --destination 921784810802.dkr.ecr.us-west-2.amazonaws.com/peke-test:${BUILD_NUMBER}
-                    '''
-                }
-            }
-            post {
-                success {
-                    echo 'success dockerizing project'
-                }
-                failure {
-                    error 'fail dockerizing project'
-                }
+            container('kaniko') {
+                sh '''
+                /kaniko/executor --context `pwd` --destination 921784810802.dkr.ecr.us-west-2.amazonaws.com/peke-test:${BUILD_NUMBER}
+                '''
             }
         }
     }
