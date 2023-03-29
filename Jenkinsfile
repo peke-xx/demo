@@ -45,7 +45,7 @@ pipeline {
         }
         stage('build project') {
             steps {
-                container('kaniko') {
+                container('jdk') {
                     sh '''
                     ./gradlew build --no-daemon
                     '''
