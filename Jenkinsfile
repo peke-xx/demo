@@ -34,7 +34,7 @@ pipeline {
                     branchArray = env.GIT_BRANCH.split('/')
                     prefix = branchArray.last()
 
-                    if (a.contains('/tags/')) {
+                    if (env.GIT_BRANCH.contains('/tags/')) {
                         Date date = new Date()
                         postfix = date.format("yyyyMMddHHmmss")
 
