@@ -18,6 +18,7 @@ pipeline {
         stage('init') {
             steps {
                 echo 'init stage'
+                sh "pwd"
                 deleteDir()
             }
             post {
@@ -32,6 +33,7 @@ pipeline {
         stage('clone project') {
             steps {
                 checkout scm
+                sh "pwd"
                 sh "ls -al"
             }
             post {
@@ -49,6 +51,7 @@ pipeline {
                     sh '''
                     ./gradlew build --no-daemon
                     '''
+                    sh "pwd"
                 }
             }
             post {
@@ -66,6 +69,7 @@ pipeline {
                     sh '''
                     /kaniko/executor --context `pwd` --destination 921784810802.dkr.ecr.us-west-2.amazonaws.com/peke-test:${BUILD_NUMBER}
                     '''
+                    sh "pwd"
                 }
             }
             post {
