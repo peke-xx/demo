@@ -29,6 +29,8 @@ pipeline {
             steps {
                 checkout scm
                 sh "ls -al"
+                sh "printenv"
+
             }
             post {
                 success {
