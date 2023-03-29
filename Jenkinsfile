@@ -29,8 +29,14 @@ pipeline {
             steps {
                 checkout scm
                 sh "ls -al"
-                sh "printenv"
 
+                branchArray = env.GIT_BRANCH.split('/')
+                prefix = branchArray.last()
+
+                Date date = new Date()
+                postfix = date.format("yyyyMMddHHmmss")
+
+                env.CUSTOM_IMAGE_TAG = "${prefix}-${postfix}"
             }
             post {
                 success {
@@ -60,7 +66,7 @@ pipeline {
             steps {
                 container('kaniko') {
                     sh '''
-                    /kaniko/executor --context `pwd` --destination ${IMAGE_NAME}:${BUILD_NUMBER}
+                    /kaniko/executor --context `pwd` --destination ${IMAGE_NAME}:${env.CUSTOM_IMAGE_TAG}
                     '''
                 }
             }
