@@ -70,7 +70,7 @@ pipeline {
             steps {
                 container('kaniko') {
                     sh '''
-                    /kaniko/executor --context `pwd` --destination ${IMAGE_NAME}:${env.CUSTOM_IMAGE_TAG}
+                    /kaniko/executor --context `pwd` --destination ${IMAGE_NAME}:${CUSTOM_IMAGE_TAG}
                     '''
                 }
             }
