@@ -1,0 +1,32 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- ../base
+
+patchesStrategicMerge:
+- dev-deploy-patch.yaml
+- dev-svc-patch.yaml
+
+namespace: dev-tapas
+namePrefix: dev-
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+configMapGenerator:
+- files:
+  - application.yaml
+  name: demo-config
+
+patches:
+- path: container-env-lastcommit.json
+  target:
+    kind: Deployment
+    name: demo-deploy
+    version: v1
+
+images:
+- name: DOCKER_IMAGE_PLACE_HOLDER
+  newName: 921784810802.dkr.ecr.us-west-2.amazonaws.com/peke-test
+  newTag: 0.1.0-20230329105346

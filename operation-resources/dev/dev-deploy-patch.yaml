@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: demo
+    app.kubernetes.io/managed-by: kubectl
+  name: demo-deploy
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: dev
+          name: demo
+          resources:
+            limits:
+              cpu: 100m
+              memory: 100Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
